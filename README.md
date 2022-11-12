@@ -1,0 +1,1 @@
+[![Build Status](https://app.travis-ci.com/DashaSinkova/job4j_threads.svg?branch=master)](https://app.travis-ci.com/DashaSinkova/job4j_threads)
