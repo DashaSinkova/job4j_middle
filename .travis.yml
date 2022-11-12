@@ -18,7 +18,3 @@ notifications:
       - miss.sinkova-dasha@yandex.ru
     on_success: never # default: change
     on_failure: always # default: always
-
-env:
-  global:
-    - CODECOV_TOKEN="21618d88-eb96-4669-8ee2-7a9a003bda00"
