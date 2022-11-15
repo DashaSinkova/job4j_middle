@@ -13,16 +13,16 @@ public class ConsoleProgress implements Runnable {
                 System.out.print("\r load: " + symbols[count++]);
                 Thread.sleep(500);
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    }
+
     public static void main(String[] args) throws InterruptedException {
         Thread progress = new Thread(new ConsoleProgress());
         progress.start();
         Thread.sleep(1000);
         progress.interrupt();
     }
-    }
+}
 
