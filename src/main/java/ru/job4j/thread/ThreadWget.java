@@ -16,7 +16,6 @@ public class ThreadWget implements Runnable {
     private final String url;
     private final int speed;
     public static final String FILE_NAME = "pom_tmp.xml";
-
     public ThreadWget(String url, int speed) {
         this.url = url;
         this.speed = speed;
@@ -27,19 +26,19 @@ public class ThreadWget implements Runnable {
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(FILE_NAME)) {
             int bytesRead;
-            long startTime = System.currentTimeMillis();
+            byte[] dataBuffer = new byte[1024];
             int downloadData = 0;
-            while ((bytesRead = in.read()) != -1) {
-                fileOutputStream.write(bytesRead);
-                if (downloadData == speed) {
+            long startTime = System.currentTimeMillis();
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                downloadData += bytesRead;
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+                if (downloadData >= speed) {
                     long endTime = System.currentTimeMillis();
                     if (endTime - startTime < 1000) {
                         Thread.sleep(1000 - (endTime - startTime));
-                        downloadData = 0;
-                        startTime = System.currentTimeMillis();
                     }
-                } else {
-                    downloadData++;
+                    startTime = System.currentTimeMillis();
+                    downloadData = 0;
                 }
             }
         } catch (IOException | InterruptedException e) {
