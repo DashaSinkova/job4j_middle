@@ -3,7 +3,7 @@ package ru.job4j.thread;
 public class Cache {
     private static Cache cache;
 
-    public static Cache instOf() {
+    public static synchronized Cache instOf() {
         if (cache == null) {
             cache = new Cache();
         }
@@ -14,11 +14,11 @@ public class Cache {
         Thread thread1 = new Thread(() -> {
             Cache.instOf();
             System.out.println(Cache.cache.hashCode());
-        });
+        }, "поток 1");
         Thread thread2 = new Thread(() -> {
             Cache.instOf();
             System.out.println(Cache.cache.hashCode());
-        });
+        }, "поток 2");
         thread1.start();
         thread2.start();
 
