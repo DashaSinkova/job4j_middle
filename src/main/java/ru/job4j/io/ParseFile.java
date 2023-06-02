@@ -2,7 +2,6 @@ package ru.job4j.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Predicate;
 
 public class ParseFile {
     private final File file;
@@ -16,10 +15,13 @@ public class ParseFile {
         writeFile.saveContent(content);
     }
 
-    public synchronized String content(Predicate<Character> filter) throws IOException {
-        String output = "";
+    public synchronized String getContent() throws IOException {
         ReadFile readFile = new ReadFile(file);
-        output = readFile.content(filter);
-        return output;
+        return readFile.content(character -> true);
+    }
+
+    public synchronized String getContentWithoutUnicode() throws IOException {
+        ReadFile readFile = new ReadFile(file);
+        return readFile.content(character -> character < 0x80);
     }
 }
