@@ -13,15 +13,15 @@ public class AccountStorage {
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
     public synchronized boolean add(Account account) {
-       return Optional.ofNullable(accounts.putIfAbsent(account.getId(), account)).isEmpty();
+       return accounts.putIfAbsent(account.getId(), account) == null;
     }
 
     public synchronized boolean update(Account account) {
-        return Optional.ofNullable(accounts.replace(account.getId(), account)).isPresent();
+        return accounts.replace(account.getId(), account) != null;
     }
 
     public synchronized boolean delete(int id) {
-        return Optional.ofNullable(accounts.remove(id)).isPresent();
+        return accounts.remove(id) != null;
     }
 
     public synchronized Optional<Account> getById(int id) {
